@@ -14,7 +14,7 @@ class Controller {
   constructor(){
     this._attemptBtn.addEventListener('click', e => this.validateAttempt());
     this._restartBtn.addEventListener('click', e=> this.onCreate());
-    this._userInput.addEventListener('input', e => this.validateRange(e));
+    this._userInput.addEventListener('keydown', e => this.validateRange(e));
     this.onCreate();
   }
 
@@ -52,17 +52,13 @@ class Controller {
 
   validateRange(e){
 
-    console.log(e);
-
-    if(e == null){
+    if(!e.key.match(/[0-9]/) && e.key !== 'Backspace'){
+      e.preventDefault();
       return;
     }
 
-    if(!e.data.match(/[0-9]/)){
-      e.data = ""
+    if(parseInt(this._userInput.value + e.key) > this._maxNumber){
       e.preventDefault();
-      e.stopPropagation();
-      e.cancelBubble = true;
     }
 
   }
